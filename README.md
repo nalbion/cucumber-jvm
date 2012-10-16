@@ -58,7 +58,7 @@ in your [POM](http://maven.apache.org/pom.html):
 <dependency>
     <groupId>junit</groupId>
     <artifactId>junit</artifactId>
-    <version>4.10</version>
+    <version>4.11-beta-1</version>
     <scope>test</scope>
 </dependency>
 ```

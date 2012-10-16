@@ -1,3 +1,4 @@
+@enums
 Feature: Java Enums
 
   Background:

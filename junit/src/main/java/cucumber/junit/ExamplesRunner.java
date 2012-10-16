@@ -8,10 +8,9 @@ import org.junit.runner.Runner;
 import org.junit.runners.Suite;
 import org.junit.runners.model.InitializationError;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import static cucumber.junit.DescriptionFactory.createDescription;
 
 class ExamplesRunner extends Suite {
     private final CucumberExamples cucumberExamples;
@@ -40,7 +39,7 @@ class ExamplesRunner extends Suite {
     @Override
     public Description getDescription() {
         if (description == null) {
-            description = createDescription(getName(), cucumberExamples);
+            description = Description.createSuiteDescription(getName(), cucumberExamples.getExamples());
             for (Runner child : getChildren()) {
                 description.addChild(describeChild(child));
             }
