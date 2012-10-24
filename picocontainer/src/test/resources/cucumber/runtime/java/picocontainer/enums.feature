@@ -1,7 +1,7 @@
 @enums
 Feature: Java Enums
 
-  Background:
+  Background: What we want
     Given I want to recognize colors as enums
 
   Scenario Outline: color should be recognized as an enum
