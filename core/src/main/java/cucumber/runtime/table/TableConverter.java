@@ -7,6 +7,7 @@ import cucumber.deps.com.thoughtworks.xstream.converters.reflection.AbstractRefl
 import cucumber.deps.com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import cucumber.runtime.CucumberException;
 import cucumber.runtime.ParameterInfo;
+import cucumber.runtime.xstream.ArrayOfSingleValueWriter;
 import cucumber.runtime.xstream.CellWriter;
 import cucumber.runtime.xstream.ComplexTypeWriter;
 import cucumber.runtime.xstream.ListOfComplexTypeReader;
@@ -162,7 +163,7 @@ public class TableConverter {
      * Converts a List of objects to a DataTable.
      *
      * @param objects     the objects to convert
-     * @param columnNames an explicit list of column names
+     * @param columnNames an explicit list of column names (currently not used)
      * @return a DataTable
      */
     public DataTable toTable(List<?> objects, String... columnNames) {
@@ -171,6 +172,8 @@ public class TableConverter {
 
             List<String> header = null;
             List<List<String>> valuesList = new ArrayList<List<String>>();
+//nalbion:			boolean firstRow = true;
+            
             for (Object object : objects) {
                 CellWriter writer;
                 if (isListOfSingleValue(object)) {
@@ -181,6 +184,7 @@ public class TableConverter {
                     // XStream needs an instance of ArrayList
                     object = new ArrayList<Object>(asList((Object[]) object));
                     writer = new ListOfSingleValueWriter();
+//nalbion: 			writer = new ArrayOfSingleValueWriter(asList(columnNames));
                 } else if (object instanceof Map) {
                     writer = new MapWriter(asList(columnNames));
                 } else {
@@ -191,8 +195,13 @@ public class TableConverter {
                     header = writer.getHeader();
                 }
                 List<String> values = writer.getValues();
-                valuesList.add(values);
+//nalbion:                if( !(firstRow && values.equals(header)) ) {
+           			// Don't include the header twice
+           			valuesList.add(values);
+//nalbion:           		}
+//nalbion:           		firstRow = false;
             }
+            
             return createDataTable(header, valuesList);
         } finally {
             xStream.unsetParameterInfo();

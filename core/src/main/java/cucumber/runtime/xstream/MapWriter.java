@@ -11,6 +11,7 @@ import java.util.Map;
 public class MapWriter extends CellWriter {
     private final List<String> columnNames;
     private final Map<String, Object> values = new LinkedHashMap<String, Object>();
+//    private final List<String> fieldValues = new ArrayList<String>();
 
     private String key;
 
@@ -39,6 +40,7 @@ public class MapWriter extends CellWriter {
             key = value;
         } else {
             values.put(key, value);
+//            fieldValues.add(value == null ? "" : value);
             key = null;
         }
     }
